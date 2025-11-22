@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Marketplace API Emulator</title>
+    <link rel="stylesheet" href="core.css" />
+    <link rel="stylesheet" href="subscriptions.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.3.min.js"
+      integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+      crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="core.js"></script>
+    <script src="subscriptions.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
+    <link rel="manifest" href="images/site.webmanifest" />
+
+    <script type="text/javascript"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Azure Marketplace API Emulator</h1>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="/">Marketplace</a></li>
+        <li><a href="/subscriptions.html" class="active">Subscriptions</a></li>
+        <li><a href="/landing.html">Landing Page</a></li>
+        <li><a href="/offers.html">Offers</a></li>
+        <li><a href="/config.html">Config</a></li>
+        <li>
+          <a href="https://github.com/microsoft/Commercial-Marketplace-SaaS-API-Emulator/issues" target="_blank">
+            <svg height="24" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="24" data-view-component="true">
+              <path
+                d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+      <section class="info">
+        <header>Subscription Workflow</header>
+        <article>
+          <p>
+            Subscriptions will be listed below once created with the API using the marketplace token on the previous
+            page.
+          </p>
+          <p>Actions are limited to those available for the subscription state.</p>
+          <p>
+            A suspended subscription can be reactivated, an unsubscribed subscription is locked at that state and cannot
+            be resubscribed.
+          </p>
+          <p>
+            The webhook URL is set to the standard container configuration, if you are running on a different URL / Port
+            update to enable the webhooks.
+          </p>
+        </article>
+      </section>
+
+      <section class="main">
+        <header>Subscriptions: Test Webhook Actions</header>
+        <a class="template copy-icon">
+          <svg class="copy" xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 96 960 960" width="16"><path d="M180 975q-24 0-42-18t-18-42V312h60v603h474v60H180Zm120-120q-24 0-42-18t-18-42V235q0-24 18-42t42-18h440q24 0 42 18t18 42v560q0 24-18 42t-42 18H300Zm0-60h440V235H300v560Zm0 0V235v560Z"/></svg>
+          <svg class="done hidden" xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 96 960 960" width="16"><path d="M378 810 154 586l43-43 181 181 384-384 43 43-427 427Z"/></svg>
+        </a>
+        
+        <table>
+          <thead>
+            <tr>
+              <th width="120">Subscription Id</th>
+              <th width="170">Name</th>
+              <th width="170">Offer</th>
+              <th width="170">Plan</th>
+              <th width="45">Qty</th>
+              <th width="70">Status</th>
+              <th>Available Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="template" id="publisher-row">
+              <td class="publisher" colspan="7"></td>
+            </tr>
+            <tr class="template missing-offer" id="missing-offer-row">
+              <td colspan="6">The offer associated with this subscription has not been loaded or been deleted.</td>
+              <td>
+                <button
+                  class="danger"
+                  onclick="delete_click(event)"
+                  aria-label="Delete">
+                  Delete
+                </button>
+              </td>
+            </tr>
+            <tr class="template" id="subscription-row">
+              <td class="copy"></td>
+              <td></td>
+              <td class="copy"></td>
+              <td class="copy"></td>
+              <td></td>
+              <td></td>
+              <td>
+                <button
+                  class="state"
+                  data-requiredStatus="PendingFulfillmentStart"
+                  onclick="activate_click(event)"
+                  aria-label="Activate">
+                  Activate
+                </button>
+                <button
+                  class="detail change-quantity"
+                  data-requiredStatus="Subscribed"
+                  onclick="changeQuantity_click(event)"
+                  aria-label="Change Quantity">
+                  Change Quantity
+                </button>
+                <button
+                  class="detail"
+                  data-requiredStatus="Subscribed"
+                  onclick="changePlan_click(event)"
+                  aria-label="Change Plan">
+                  Change Plan
+                </button>
+                <button
+                  class="state"
+                  data-requiredStatus="Subscribed"
+                  onclick="suspend_click(event)"
+                  aria-label="Suspend">
+                  Suspend
+                </button>
+                <button
+                  class="state"
+                  data-requiredStatus="Suspended"
+                  onclick="reinstate_click(event)"
+                  aria-label="Reinstate">
+                  Reinstate
+                </button>
+                <button
+                  class="state"
+                  data-requiredStatus="!PendingFulfillmentStart"
+                  onclick="unsubscribe_click(event)"
+                  aria-label="Unsubscribe">
+                  Unsubscribe
+                </button>
+                <button
+                  class="danger"
+                  data-requiredStatus="Unsubscribed"
+                  onclick="delete_click(event)"
+                  aria-label="Delete">
+                  Delete
+                </button>
+                <button class="state" data-requiredStatus="Subscribed" onclick="renew_click(event)" aria-label="Renew">
+                  Renew
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="key">
+          <p>
+            Button Colour Key - emulate action changing the subscription
+            <button class="detail" disabled="disabled">Detail</button>
+            <button class="state" disabled="disabled">State</button>
+          </p>
+          <p>Renew: you will see an HTTP response but no change to this page.</p>
+        </div>
+      </section>
+
+      <div class="template" id="change-quantity-dialog">
+        <p>How many licenses?</p>
+        <input type="number" />
+      </div>
+
+      <div class="template" id="change-plan-dialog">
+        <p>Change plan to?</p>
+        <select></select>
+      </div>
+
+    </main>
+  </body>
+</html>
