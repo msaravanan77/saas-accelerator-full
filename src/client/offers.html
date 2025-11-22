@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Marketplace API Emulator</title>
+    <link rel="stylesheet" href="core.css" />
+    <link rel="stylesheet" href="offers.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.3.min.js"
+      integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+      crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+        <script src="notifications.js"></script>
+        <script src="core.js"></script>
+        <script src="offers.js"></script>
+        <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
+        <link rel="manifest" href="images/site.webmanifest" />
+
+        <script type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>Azure Marketplace API Emulator</h1>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="/">Marketplace</a></li>
+                <li><a href="/subscriptions.html">Subscriptions</a></li>
+                <li><a href="/landing.html">Landing Page</a></li>
+                <li><a href="/offers.html" class="active">Offers</a></li>
+                <li><a href="/config.html">Config</a></li>
+                <li><a href="https://github.com/microsoft/Commercial-Marketplace-SaaS-API-Emulator/issues" target="_blank">
+
+                    <svg height="24" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="24" data-view-component="true">
+                        <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+                    </svg>
+
+                </a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section class="info">
+                <header>Introduction</header>
+                <article>
+                    <p>Use <strong>Offer Central</strong> to view, edit and create offers to use in the emulator.</p>
+                    <p>
+                        <strong>Points of note:</strong>
+                        <ul>
+                            <li>Offer Id must be unique - the Emulator, can replicate Partner Center</li>
+                            <li>Basic offer and plan details are used for the Emulator, not the full scope</li>
+                            <li>Plans only have one billing parameter for simplicity (see below)</li>
+                            <li>You can clone existing offers as a template for a new one</li>
+                            <li>You cannot edit the sample offers that ship with the Emulator</li>
+                            <li>You cannot delete an offer if it is in use</li>
+                            <li>The only currency is USD</li>
+                        </ul>
+                    </p>
+                    <p>
+                        <strong>In Partner Center</strong> you would build the Offer > Plan > Billing, using M365 as an example:
+                        <ul>
+                            <li>Offer: the product, e.g. M365</li>
+                            <li>Plan: a specific feature set, e.g. E3 and per user</li>
+                            <li>Billing: pricing, e.g. per month, per annum</li>
+                        </ul>
+                    </p>
+                    <p><strong>In the Emulator</strong>, currently, the Plan and Billing elements are a single item - <strong>create a Plan as required and add a single billing metric for that Plan.</strong></p>
+                </article>
+            </section>
+
+            <section class="main">
+                <header>Offer Central</header>
+                
+                <section class="offers">
+                </section>
+
+                <section class="detail">
+                    <div>
+                        <header>Offer</header>
+                        <div>
+                            <label>Offer Name</label>
+                            <input id="offer-name" />
+                        </div>
+
+                        <div>
+                            <label>Offer Id</label>
+                            <input id="offer-id" />
+                        </div>
+
+                        <div>
+                            <label>Price Model</label>
+                            <select id="per-seat">
+                                <option value="true">Per Seat</option>
+                                <option value="false">Flat Rate</option>
+                            </select>
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Plan Name</th>
+                                    <th>Plan Id</th>
+                                    <th>Billing Term</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="template">
+                                    <td class="plan-name"><input /></td>
+                                    <td class="plan-id"><input /></td>
+                                    <td class="billing-term">
+                                        <select>
+                                            <option value="P1M">1 Month</option>
+                                            <option value="P1Y">1 Year</option>
+                                        </select>
+                                    </td>
+                                    <td class="price"><input /></td>
+                                    <td>
+                                        <button onclick="addRow_click(event)">+</button>
+                                        <button onclick="deleteRow_click(event)" class="danger">x</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <button class="custom new primary" onclick="saveOffer_click(event)">Save</button>
+                                        <button class="custom danger" onclick="deleteOffer_click(event)">Delete</button>
+                                        <button class="custom built-in" onclick="clone_click(event)">Clone</button>
+                                        <button class="custom new built-in" onclick="cancel_click(event)">Cancel</button>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </section>
+
+            </section>
+
+        </main>
+    </body>
+</html>

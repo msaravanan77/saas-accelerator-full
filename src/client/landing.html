@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Marketplace API Emulator</title>
+    <link rel="stylesheet" href="core.css" />
+    <link rel="stylesheet" href="landing.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.3.min.js"
+      integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+      crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+        <script src="notifications.js"></script>
+        <script src="core.js"></script>
+        <script src="landing.js"></script>
+        <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
+        <link rel="manifest" href="images/site.webmanifest" />
+
+        <script type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>Azure Marketplace API Emulator</h1>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="/">Marketplace</a></li>
+                <li><a href="/subscriptions.html">Subscriptions</a></li>
+                <li><a href="/landing.html" class="active">Landing Page</a></li>
+                <li><a href="/offers.html">Offers</a></li>
+                <li><a href="/config.html">Config</a></li>
+                <li><a href="https://github.com/microsoft/Commercial-Marketplace-SaaS-API-Emulator/issues" target="_blank">
+
+                    <svg height="24" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="24" data-view-component="true">
+                        <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+                    </svg>
+
+                </a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section class="info">
+                <header>Introduction</header>
+                <article class="hidden with-token">
+                    <p>This is the emulator's built-in landing page. It's a very simple implementation to provide something that works out the box.</p>
+                    <p>The landing page resolves (decodes) the purchase token passed to it from the marketplace.</p>
+                    <p>The token contains the purchase details, these are used to populate the fields on the right.</p>
+                    <p>It is also the place to capture any additional details from the customer prior to onboarding.</p>
+                    <p>Click the "Activate Subscription" button to activate the displayed subscription.</p>
+                </article>
+                <article>
+                    <p>This is the emulator's built-in landing page. It's a very simple implementation to provide something that works out the box.</p>
+                    <p>To make it function, a purchase token needs to be passed in the query string.</p>
+                    <p>
+                        <ul>
+                            <li>Return to the <a href="/">Marketplace page</a></li>
+                            <li>Generate a token</li>
+                            <li>Configure your purchase</li>
+                        </ul>
+                    </p>
+                </article>
+            </section>
+
+            <section class="main">
+                <header>Configure Subscription</header>
+                <div class="no-token">
+                    The url doesn't contain a marketplace token.<br />Go to the <a href="/">Marketplace page</a> and purchase an offer.
+                </div>
+                <div class="with-token">
+                    <div>
+                        <label>Offer Id</label>
+                        <div class="offer-id"></div>
+                    </div>
+                    <div>
+                        <label>Plan Id</label>
+                        <div class="plan-id"></div>
+                    </div>
+                    <div>
+                        <label>Quantity</label>
+                        <div class="quantity"></div>
+                    </div>
+                    <div>
+                        <label>Subscription Name</label>
+                        <div class="subscription-name"></div>
+                    </div>
+                    <div>
+                        <label>Beneficiary Email</label>
+                        <div class="beneficiary-email"></div>
+                    </div>
+                    <div>
+                        <label>Publisher Id</label>
+                        <div class="publisher-id"></div>
+                    </div>
+                    <div class="seperator"></div>
+                    <div>
+                        <p>For the commercial marketplace, this page must be AAD SSO enabled
+                            You should check the user identity against the resolved token to ensure they match
+                            Optionally, you can collect additional details from the customer for onboarding (eg below)</p>
+                    </div>
+                    <div class="seperator"></div>
+                    <div>
+                        <label>Company Name</label>
+                        <input />
+                    </div>
+                    <div>
+                        <label>Contact Telephone</label>
+                        <input />
+                    </div>
+                    
+                    <div>
+                        <label></label>
+                        <button class="activate primary">Activate Subscription</button>
+                        <button class="subscriptions primary hidden">Go to Subscriptions</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </body>
+</html>
