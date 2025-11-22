@@ -24,11 +24,12 @@ public class BaseController : Controller
     private readonly ApplicationConfigService applicationConfigService;
 
     private readonly IAppVersionService appVersionService;
-    public BaseController(IApplicationConfigRepository applicationConfigRepository, 
+    public BaseController(IApplicationConfigRepository applicationConfigRepository,
                           IAppVersionService appVersionService)
     {
         this.applicationConfigService = new ApplicationConfigService(applicationConfigRepository);
-        this.CheckAuthentication();
+        // LOCAL DEV MODE: Comment out CheckAuthentication to avoid redirect loops
+        // this.CheckAuthentication();
         this.appVersionService = appVersionService;
     }
 
@@ -59,7 +60,9 @@ public class BaseController : Controller
     {
         get
         {
-            return HttpContext?.User?.Claims?.FirstOrDefault(s => s.Type == ClaimConstants.CLAIM_EMAILADDRESS)?.Value ?? string.Empty;
+            // LOCAL DEV MODE: Provide fallback mock admin user email
+            return HttpContext?.User?.Claims?.FirstOrDefault(s => s.Type == ClaimConstants.CLAIM_EMAILADDRESS)?.Value
+                   ?? "admin-dev@example.com";
         }
     }
 
@@ -90,7 +93,8 @@ public class BaseController : Controller
                 }
             }
 
-            return string.Empty;
+            // LOCAL DEV MODE: Provide fallback mock admin user name
+            return "Local Admin User";
         }
     }
 

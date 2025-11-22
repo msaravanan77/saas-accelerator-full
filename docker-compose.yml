@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  # SQL Server Database
+  # Stores subscriptions, users, plans, offers, audit logs
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: saas-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+    networks:
+      - saas-network
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'YourStrong@Passw0rd' -Q 'SELECT 1' || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  # Azure Marketplace API Emulator
+  # Simulates Azure Marketplace Fulfillment APIs
+  api-emulator:
+    build:
+      context: ./api-emulator
+      dockerfile: docker/Dockerfile
+    container_name: saas-api-emulator
+    environment:
+      - PORT=80
+      - LANDING_PAGE_URL=http://172.28.10.162:5000/
+      - WEBHOOK_URL=http://customersite:80/api/AzureWebhook
+      - REQUIRE_AUTH=false
+      - PUBLISHER_ID=LocalDevPublisher
+    ports:
+      - "8080:80"
+    networks:
+      - saas-network
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+  # CustomerSite (Landing Page & Subscription Portal)
+  # Customer-facing application for subscription activation and management
+  customersite:
+    build:
+      context: ./saas-accelerator/src
+      dockerfile: CustomerSite/Dockerfile
+    container_name: saas-customersite
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5000:80"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      api-emulator:
+        condition: service_healthy
+    networks:
+      - saas-network
+    restart: unless-stopped
+
+  # AdminSite (Publisher Portal)
+  # Publisher-facing administration application
+  adminsite:
+    build:
+      context: ./saas-accelerator/src
+      dockerfile: AdminSite/Dockerfile
+    container_name: saas-adminsite
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5001:80"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      api-emulator:
+        condition: service_healthy
+    networks:
+      - saas-network
+    restart: unless-stopped
+
+networks:
+  saas-network:
+    driver: bridge
+
+volumes:
+  sqldata:
+    driver: local

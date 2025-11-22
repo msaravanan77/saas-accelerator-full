@@ -92,36 +92,17 @@ public class Startup
 
 
 
+        // LOCAL DEV MODE: Replace Azure AD OpenIdConnect with cookie-only authentication
+        // This allows local development without Azure AD infrastructure
         services
-            .AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddOpenIdConnect(options =>
-            {
-
-                if (boolMultiTenant == "false")
-                {
-                    options.Authority = $"{config.AdAuthenticationEndPoint}/{config.TenantId}/v2.0";
-                }
-                else
-                {
-                    options.Authority = $"{config.AdAuthenticationEndPoint}/common/v2.0";
-                }
-                options.ClientId = config.MTClientId;
-                options.ResponseType = OpenIdConnectResponseType.IdToken;
-                options.CallbackPath = "/Home/Index";
-                options.SignedOutRedirectUri = config.SignedOutRedirectUri;
-                options.TokenValidationParameters.NameClaimType = ClaimConstants.CLAIM_SHORT_NAME;
-                options.TokenValidationParameters.ValidateIssuer = false;
-            })
+            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.Cookie.MaxAge = options.ExpireTimeSpan;
                 options.SlidingExpiration = true;
+                options.LoginPath = "/Account/MockLogin"; // Auto-login with mock user
+                options.AccessDeniedPath = "/Account/MockLogin";
             });
 
         services

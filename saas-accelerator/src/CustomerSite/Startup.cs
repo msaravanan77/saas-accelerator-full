@@ -81,28 +81,17 @@ public class Startup
         };
         var creds = new ClientSecretCredential(config.TenantId.ToString(), config.ClientId.ToString(), config.ClientSecret);
 
+        // LOCAL DEV MODE: Replace Azure AD OpenIdConnect with cookie-only authentication
+        // This allows local development without Azure AD infrastructure
         services
-            .AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
+            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.Cookie.MaxAge = options.ExpireTimeSpan;
                 options.SlidingExpiration = true;
-            })
-            .AddOpenIdConnect(options =>
-            {
-                options.Authority = $"{config.AdAuthenticationEndPoint}/common/v2.0";
-                options.ClientId = config.MTClientId;
-                options.ResponseType = OpenIdConnectResponseType.IdToken;
-                options.CallbackPath = "/Home/Index";
-                options.SignedOutRedirectUri = config.SignedOutRedirectUri;
-                options.TokenValidationParameters.NameClaimType = ClaimConstants.CLAIM_SHORT_NAME;
-                options.TokenValidationParameters.ValidateIssuer = false;
+                options.LoginPath = "/Account/MockLogin"; // Auto-login with mock user
+                options.AccessDeniedPath = "/Account/MockLogin";
             });
         services
             .AddTransient<IClaimsTransformation, CustomClaimsTransformation>()

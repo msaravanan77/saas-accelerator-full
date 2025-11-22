@@ -24,7 +24,8 @@ public class BaseController : Controller
     public BaseController(IAppVersionService appVersionService)
     {
         _appVersionService = appVersionService;
-        this.CheckAuthentication();
+        // LOCAL DEV MODE: Comment out CheckAuthentication to avoid redirect loops
+        // this.CheckAuthentication();
     }
 
     public override void OnActionExecuting(ActionExecutingContext context)
@@ -43,7 +44,9 @@ public class BaseController : Controller
     {
         get
         {
-            return HttpContext?.User?.Claims?.FirstOrDefault(s => s.Type == ClaimConstants.CLAIM_EMAILADDRESS)?.Value ?? string.Empty; 
+            // LOCAL DEV MODE: Provide fallback mock user email
+            return HttpContext?.User?.Claims?.FirstOrDefault(s => s.Type == ClaimConstants.CLAIM_EMAILADDRESS)?.Value
+                   ?? "local-dev@example.com";
         }
     }
 
@@ -74,7 +77,8 @@ public class BaseController : Controller
                 }
             }
 
-            return string.Empty;
+            // LOCAL DEV MODE: Provide fallback mock user name
+            return "Local Dev User";
         }
     }
 

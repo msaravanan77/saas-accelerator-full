@@ -285,19 +285,14 @@ public class HomeController : BaseController
             }
             else
             {
+                // LOCAL DEV MODE: Redirect to mock login instead of Azure AD challenge
                 if (!string.IsNullOrEmpty(token))
                 {
-                    return this.Challenge(
-                        new AuthenticationProperties
-                        {
-                            RedirectUri = "/?token=" + token,
-                        }, OpenIdConnectDefaults.AuthenticationScheme);
+                    return Redirect($"/Account/MockLogin?returnUrl=/?token={System.Web.HttpUtility.UrlEncode(token)}");
                 }
                 else
                 {
-                    this.TempData["ShowWelcomeScreen"] = "True";
-                    subscriptionExtension.ShowWelcomeScreen = true;
-                    return this.View(subscriptionExtension);
+                    return Redirect("/Account/MockLogin?returnUrl=/");
                 }
             }
 

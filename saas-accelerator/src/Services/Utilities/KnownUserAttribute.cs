@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Marketplace.SaaS.Accelerator.DataAccess.Contracts;
+using Marketplace.SaaS.Accelerator.DataAccess.Entities;
 using Marketplace.SaaS.Accelerator.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,21 +52,49 @@ public class KnownUserAttribute : AuthorizeAttribute, IAuthorizationFilter
         if (context.HttpContext != null && context.HttpContext.User.Claims.Count() > 0)
         {
             email = context.HttpContext.User?.Claims?.Where(s => s.Type == ClaimConstants.CLAIM_EMAILADDRESS)?.FirstOrDefault()?.Value;
+
+            // LOCAL DEV MODE: Auto-register mock user if not exists
+            if (string.IsNullOrEmpty(email))
+            {
+                email = "admin-dev@example.com"; // Fallback to mock user
+            }
+
             isKnownuser = this.knownUsersRepository.GetKnownUserDetail(email, 1)?.Id > 0;
 
             if (!isKnownuser)
             {
-                var routeValues = new RouteValueDictionary();
-                routeValues["controller"] = "Account";
-                routeValues["action"] = "AccessDenied";
-                context.Result = new RedirectToRouteResult(routeValues);
+                // LOCAL DEV MODE: Auto-register the user instead of denying access
+                try
+                {
+                    var userName = context.HttpContext.User?.Claims?
+                        .Where(s => s.Type == ClaimConstants.CLAIM_NAME)
+                        .FirstOrDefault()?.Value ?? "Local Admin User";
+
+                    this.knownUsersRepository.AddKnownUsers(new KnownUsers
+                    {
+                        UserEmail = email,
+                        RoleId = 1, // Admin role
+                        CreatedDate = DateTime.UtcNow
+                    });
+
+                    // User auto-registered, allow access to continue
+                }
+                catch (Exception)
+                {
+                    // If auto-registration fails, deny access
+                    var routeValues = new RouteValueDictionary();
+                    routeValues["controller"] = "Account";
+                    routeValues["action"] = "AccessDenied";
+                    context.Result = new RedirectToRouteResult(routeValues);
+                }
             }
         }
         else
         {
+            // LOCAL DEV MODE: Redirect to mock login instead of Azure AD sign in
             var routeValues = new RouteValueDictionary();
             routeValues["controller"] = "Account";
-            routeValues["action"] = "SignIn";
+            routeValues["action"] = "MockLogin";
             context.Result = new RedirectToRouteResult(routeValues);
         }
     }
