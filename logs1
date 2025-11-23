@@ -1,0 +1,230 @@
+root@OTX-FHPFDY3:/home/saravanan/github/saas-accelerator-full# docker-compose logs -f customersite adminsite
+Attaching to saas-customersite, saas-adminsite
+saas-adminsite  | warn: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository[60]
+saas-adminsite  |       Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+saas-adminsite  | warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+saas-adminsite  |       No XML encryptor configured. Key {94e1d068-84b6-49c0-9ba8-455cfd57561f} may be persisted to storage in unencrypted form.
+saas-adminsite  | warn: Microsoft.AspNetCore.Hosting.Diagnostics[15]
+saas-adminsite  |       Overriding HTTP_PORTS '8080' and HTTPS_PORTS ''. Binding to values defined by URLS instead 'http://+:80'.
+saas-adminsite  | info: Marketplace.SaaS.Accelerator.AdminSite.Startup[0]
+saas-adminsite  |       Applying database migrations...
+saas-adminsite  | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+saas-adminsite  |       Failed executing DbCommand (191ms) [Parameters=[], CommandType='Text', CommandTimeout='60']
+saas-adminsite  |       CREATE DATABASE [AMPSaaSDB];
+saas-adminsite  | fail: Marketplace.SaaS.Accelerator.AdminSite.Startup[0]
+saas-adminsite  |       An error occurred while applying database migrations.
+saas-adminsite  |       Microsoft.Data.SqlClient.SqlException (0x80131904): Database 'AMPSaaSDB' already exists. Choose a different database name.
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+saas-adminsite  |          at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+saas-adminsite  |          at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerDatabaseCreator.Create()
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+saas-adminsite  |          at Marketplace.SaaS.Accelerator.AdminSite.Startup.Configure(IApplicationBuilder app, IWebHostEnvironment env) in /src/AdminSite/Startup.cs:line 174
+saas-adminsite  |       ClientConnectionId:243d42ac-e309-4486-86de-73944b34480a
+saas-adminsite  |       Error Number:1801,State:3,Class:16
+saas-adminsite  | crit: Microsoft.AspNetCore.Hosting.Diagnostics[6]
+saas-adminsite  |       Application startup exception
+saas-adminsite  |       Microsoft.Data.SqlClient.SqlException (0x80131904): Database 'AMPSaaSDB' already exists. Choose a different database name.
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+saas-adminsite  |          at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+saas-adminsite  |          at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerDatabaseCreator.Create()
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+saas-adminsite  |          at Marketplace.SaaS.Accelerator.AdminSite.Startup.Configure(IApplicationBuilder app, IWebHostEnvironment env) in /src/AdminSite/Startup.cs:line 174
+saas-adminsite  |          at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+saas-adminsite  |          at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+saas-adminsite  |          at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+saas-adminsite  |          at Microsoft.AspNetCore.Hosting.ConfigureBuilder.Invoke(Object instance, IApplicationBuilder builder)
+saas-adminsite  |          at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+saas-adminsite  |       ClientConnectionId:243d42ac-e309-4486-86de-73944b34480a
+saas-adminsite  |       Error Number:1801,State:3,Class:16
+saas-adminsite  | fail: Microsoft.Extensions.Hosting.Internal.Host[11]
+saas-adminsite  |       Hosting failed to start
+saas-adminsite  |       Microsoft.Data.SqlClient.SqlException (0x80131904): Database 'AMPSaaSDB' already exists. Choose a different database name.
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+saas-adminsite  |          at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+saas-customersite | warn: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository[60]
+saas-customersite |       Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+saas-customersite | warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+saas-customersite |       No XML encryptor configured. Key {a089264b-3906-4d89-b77e-8d82aac2d1f4} may be persisted to storage in unencrypted form.
+saas-customersite | warn: Microsoft.AspNetCore.Hosting.Diagnostics[15]
+saas-customersite |       Overriding HTTP_PORTS '8080' and HTTPS_PORTS ''. Binding to values defined by URLS instead 'http://+:80'.
+saas-customersite | info: Marketplace.SaaS.Accelerator.CustomerSite.Startup[0]
+saas-customersite |       Applying database migrations...
+saas-customersite | info: Marketplace.SaaS.Accelerator.CustomerSite.Startup[0]
+saas-customersite |       Database migrations applied successfully.
+saas-customersite | info: Microsoft.Hosting.Lifetime[14]
+saas-customersite |       Now listening on: http://[::]:80
+saas-customersite | info: Microsoft.Hosting.Lifetime[0]
+saas-customersite |       Application started. Press Ctrl+C to shut down.
+saas-customersite | info: Microsoft.Hosting.Lifetime[0]
+saas-customersite |       Hosting environment: Development
+saas-customersite | info: Microsoft.Hosting.Lifetime[0]
+saas-customersite |       Content root path: /app
+saas-customersite | warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+saas-customersite |       Failed to determine the https port for redirect.
+saas-customersite | info: Marketplace.SaaS.Accelerator.CustomerSite.Controllers.HomeController[0]
+saas-customersite |       Landing page with token
+saas-customersite | info: Marketplace.SaaS.Accelerator.CustomerSite.Controllers.HomeController[0]
+saas-customersite |       Landing page with token
+saas-customersite | info: Marketplace.SaaS.Accelerator.CustomerSite.Controllers.HomeController[0]
+saas-customersite |       User authenticated successfully
+saas-customersite | info: Marketplace.SaaS.Accelerator.CustomerSite.Controllers.HomeController[0]
+saas-customersite |       Landing page with token ewogICJpZCI6ICJiM2YwYjQ3My00MjdkLTQ0ZGMtODI1OS1hZGRmYThkMjAwZTYiLAogICJuYW1lIjogImRkZCIsCiAgIm9mZmVySWQiOiAiZmxhdC1yYXRlIiwKICAicGxhbklkIjogImZsYXQtcmF0ZS0xIiwKICAiYmVuZWZpY2lhcnkiOiB7CiAgICAiZW1haWxJZCI6ICJ1c2VyQGZvcnRoY29mZmVlLmNvbSIsCiAgICAib2JqZWN0SWQiOiAiNjI1YmFlMDAtNGJmYy00MTU2LWIzYzMtNjkwN2FjZjM3YmIxIiwKICAgICJ0ZW5hbnRJZCI6ICI0ODcxNTFkMC1jNWY3LTQzMTYtODk2Ny1lOTc2NWQ3NTVkNjciCiAgfSwKICAicHVyY2hhc2VyIjogewogICAgImVtYWlsSWQiOiAidXNlckBmb3J0aGNvZmZlZS5jb20iLAogICAgIm9iamVjdElkIjogIjYyNWJhZTAwLTRiZmMtNDE1Ni1iM2MzLTY5MDdhY2YzN2JiMSIsCiAgICAidGVuYW50SWQiOiAiNDg3MTUxZDAtYzVmNy00MzE2LTg5NjctZTk3NjVkNzU1ZDY3IgogIH0sCiAgInF1YW50aXR5IjogbnVsbCwKICAiYXV0b1JlbmV3IjogZmFsc2UsCiAgImlzVGVzdCI6IGZhbHNlLAogICJpc0ZyZWVUcmlhbCI6IGZhbHNlCn0=
+saas-customersite | info: Marketplace.SaaS.Accelerator.CustomerSite.Controllers.HomeController[0]
+saas-customersite |       Landing page with token ewogICJpZCI6ICJiM2YwYjQ3My00MjdkLTQ0ZGMtODI1OS1hZGRmYThkMjAwZTYiLAogICJuYW1lIjogImRkZCIsCiAgIm9mZmVySWQiOiAiZmxhdC1yYXRlIiwKICAicGxhbklkIjogImZsYXQtcmF0ZS0xIiwKICAiYmVuZWZpY2lhcnkiOiB7CiAgICAiZW1haWxJZCI6ICJ1c2VyQGZvcnRoY29mZmVlLmNvbSIsCiAgICAib2JqZWN0SWQiOiAiNjI1YmFlMDAtNGJmYy00MTU2LWIzYzMtNjkwN2FjZjM3YmIxIiwKICAgICJ0ZW5hbnRJZCI6ICI0ODcxNTFkMC1jNWY3LTQzMTYtODk2Ny1lOTc2NWQ3NTVkNjciCiAgfSwKICAicHVyY2hhc2VyIjogewogICAgImVtYWlsSWQiOiAidXNlckBmb3J0aGNvZmZlZS5jb20iLAogICAgIm9iamVjdElkIjogIjYyNWJhZTAwLTRiZmMtNDE1Ni1iM2MzLTY5MDdhY2YzN2JiMSIsCiAgICAidGVuYW50SWQiOiAiNDg3MTUxZDAtYzVmNy00MzE2LTg5NjctZTk3NjVkNzU1ZDY3IgogIH0sCiAgInF1YW50aXR5IjogbnVsbCwKICAiYXV0b1JlbmV3IjogZmFsc2UsCiAgImlzVGVzdCI6IGZhbHNlLAogICJpc0ZyZWVUcmlhbCI6IGZhbHNlCn0=
+saas-customersite | info: Marketplace.SaaS.Accelerator.CustomerSite.Controllers.HomeController[0]
+saas-customersite |       User authenticated successfully
+saas-customersite | info: Marketplace.SaaS.Accelerator.Services.Services.FulfillmentApiService[0]
+saas-customersite |       Inside ResolveAsync() of FulfillmentApiService, trying to resolve the Subscription by MarketPlaceToken
+saas-customersite | fail: Marketplace.SaaS.Accelerator.CustomerSite.Controllers.HomeController[0]
+saas-customersite |       Message:Bearer token authentication is not permitted for non TLS protected (https) endpoints. ::
+saas-adminsite  |          at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+saas-adminsite  |          at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerDatabaseCreator.Create()
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+saas-adminsite  |          at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+saas-adminsite  |          at Marketplace.SaaS.Accelerator.AdminSite.Startup.Configure(IApplicationBuilder app, IWebHostEnvironment env) in /src/AdminSite/Startup.cs:line 174
+saas-adminsite  |          at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+saas-adminsite  |          at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+saas-adminsite  |          at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+saas-adminsite  |          at Microsoft.AspNetCore.Hosting.ConfigureBuilder.Invoke(Object instance, IApplicationBuilder builder)
+saas-adminsite  |          at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+saas-adminsite  |          at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+saas-adminsite  |          at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+saas-adminsite  |       ClientConnectionId:243d42ac-e309-4486-86de-73944b34480a
+saas-adminsite  |       Error Number:1801,State:3,Class:16
+saas-adminsite  | Unhandled exception. Microsoft.Data.SqlClient.SqlException (0x80131904): Database 'AMPSaaSDB' already exists. Choose a different database name.
+saas-adminsite  |    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+saas-adminsite  |    at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+saas-adminsite  |    at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+saas-adminsite  |    at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+saas-adminsite  |    at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+saas-adminsite  |    at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+saas-adminsite  |    at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+saas-adminsite  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+saas-adminsite  |    at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+saas-adminsite  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+saas-adminsite  |    at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerDatabaseCreator.Create()
+saas-adminsite  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+saas-adminsite  |    at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+saas-adminsite  |    at Marketplace.SaaS.Accelerator.AdminSite.Startup.Configure(IApplicationBuilder app, IWebHostEnvironment env) in /src/AdminSite/Startup.cs:line 174
+saas-adminsite  |    at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+saas-adminsite  |    at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+saas-adminsite  |    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+saas-adminsite  |    at Microsoft.AspNetCore.Hosting.ConfigureBuilder.Invoke(Object instance, IApplicationBuilder builder)
+saas-adminsite  |    at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+saas-adminsite  |    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+saas-adminsite  |    at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+saas-adminsite  |    at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+saas-adminsite  |    at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+saas-adminsite  |    at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+saas-adminsite  |    at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Run(IHost host)
+saas-adminsite  |    at Marketplace.SaaS.Accelerator.AdminSite.Program.Main(String[] args) in /src/AdminSite/Program.cs:line 18
+saas-adminsite  | ClientConnectionId:243d42ac-e309-4486-86de-73944b34480a
+saas-adminsite  | Error Number:1801,State:3,Class:16
+saas-adminsite  | warn: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository[60]
+saas-adminsite  |       Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+saas-adminsite  | warn: Microsoft.AspNetCore.Hosting.Diagnostics[15]
+saas-adminsite  |       Overriding HTTP_PORTS '8080' and HTTPS_PORTS ''. Binding to values defined by URLS instead 'http://+:80'.
+saas-adminsite  | info: Marketplace.SaaS.Accelerator.AdminSite.Startup[0]
+saas-adminsite  |       Applying database migrations...
+saas-adminsite  | info: Marketplace.SaaS.Accelerator.AdminSite.Startup[0]
+saas-adminsite  |       Database migrations applied successfully.
+saas-adminsite  | info: Microsoft.Hosting.Lifetime[14]
+saas-adminsite  |       Now listening on: http://[::]:80
+saas-adminsite  | info: Microsoft.Hosting.Lifetime[0]
+saas-adminsite  |       Application started. Press Ctrl+C to shut down.
+saas-adminsite  | info: Microsoft.Hosting.Lifetime[0]
+saas-adminsite  |       Hosting environment: Development
+saas-adminsite  | info: Microsoft.Hosting.Lifetime[0]
+saas-adminsite  |       Content root path: /app
+saas-adminsite  | warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+saas-adminsite  |       Failed to determine the https port for redirect.
+
+
+
+
+Browser:
+http://172.28.10.162:5000/?token=ewogICJpZCI6ICJiM2YwYjQ3My00MjdkLTQ0ZGMtODI1OS1hZGRmYThkMjAwZTYiLAogICJuYW1lIjogImRkZCIsCiAgIm9mZmVySWQiOiAiZmxhdC1yYXRlIiwKICAicGxhbklkIjogImZsYXQtcmF0ZS0xIiwKICAiYmVuZWZpY2lhcnkiOiB7CiAgICAiZW1haWxJZCI6ICJ1c2VyQGZvcnRoY29mZmVlLmNvbSIsCiAgICAib2JqZWN0SWQiOiAiNjI1YmFlMDAtNGJmYy00MTU2LWIzYzMtNjkwN2FjZjM3YmIxIiwKICAgICJ0ZW5hbnRJZCI6ICI0ODcxNTFkMC1jNWY3LTQzMTYtODk2Ny1lOTc2NWQ3NTVkNjciCiAgfSwKICAicHVyY2hhc2VyIjogewogICAgImVtYWlsSWQiOiAidXNlckBmb3J0aGNvZmZlZS5jb20iLAogICAgIm9iamVjdElkIjogIjYyNWJhZTAwLTRiZmMtNDE1Ni1iM2MzLTY5MDdhY2YzN2JiMSIsCiAgICAidGVuYW50SWQiOiAiNDg3MTUxZDAtYzVmNy00MzE2LTg5NjctZTk3NjVkNzU1ZDY3IgogIH0sCiAgInF1YW50aXR5IjogbnVsbCwKICAiYXV0b1JlbmV3IjogZmFsc2UsCiAgImlzVGVzdCI6IGZhbHNlLAogICJpc0ZyZWVUcmlhbCI6IGZhbHNlCn0=
+oops!
+Error 500 : Bearer token authentication is not permitted for non TLS protected (https) endpoints.
+
+
+
+
+
+firsttime direct:
+http://172.28.10.162:5000/
+http://172.28.10.162:5000/
+Home
+Subscriptions
+The application uses cookies to give you a better experience. By proceeding to access the application, you agree to our use of cookies.
+Welcome
+Get started with integrating your Software as a Service (SaaS) solution with the SaaS fulfillment APIs version 2 in Microsoft commercial marketplace.
+
+Click here for the API documentation.
+
+To purchase this SaaS offer:
+Search for resources of type Software as a Service (SaaS)
+Search for your offer
+Click Create to subscribe to the offer
+Click Configure Account after the subscription created
+
+
+
+wehre as adminsite:
+http://172.28.10.162:5001/Account/AccessDenied
+The application uses cookies to give you a better experience. By proceeding to access the application, you agree to our use of cookies.OK
+oops!
+You don't have access to the site
+
+fter clicking please logon buttong
+An unhandled exception occurred while processing the request.
+InvalidOperationException: No authentication handler is registered for the scheme 'OpenIdConnect'. The registered schemes are: Cookies. Did you forget to call AddAuthentication().Add[SomeAuthHandler]("OpenIdConnect",...)?
+Microsoft.AspNetCore.Authentication.AuthenticationService.ChallengeAsync(HttpContext context, string scheme, AuthenticationProperties properties)
+
+Stack Query Cookies Headers Routing
+InvalidOperationException: No authentication handler is registered for the scheme 'OpenIdConnect'. The registered schemes are: Cookies. Did you forget to call AddAuthentication().Add[SomeAuthHandler]("OpenIdConnect",...)?
+Microsoft.AspNetCore.Authentication.AuthenticationService.ChallengeAsync(HttpContext context, string scheme, AuthenticationProperties properties)
+Microsoft.AspNetCore.Mvc.ChallengeResult.ExecuteResultAsync(ActionContext context)
+Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0<TFilter, TFilterAsync>(ResourceInvoker invoker, Task lastTask, State next, Scope scope, object state, bool isCompleted)
+Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext<TFilter, TFilterAsync>(ref State next, ref Scope scope, ref object state, ref bool isCompleted)
+Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, object state, bool isCompleted)
+Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(ref State next, ref Scope scope, ref object state, ref bool isCompleted)
+Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+
+Show raw exception details
+
