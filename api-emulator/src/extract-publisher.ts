@@ -9,6 +9,14 @@ export const extractPublisher = (services: ServicesContainer) => (req: Request, 
   let publisherId = '';
 
   if (token === undefined) {
+    // LOCAL DEV MODE: If REQUIRE_AUTH=false and no token, check for publisherId in query or use config default
+    if (!services.config.requireAuth) {
+      publisherId = (req.query.publisherId as string) || services.config.publisherId;
+      (req as RequestWithPublisher).publisherId = publisherId;
+      next();
+      return;
+    }
+
     if (req.query.publisherId === undefined || req.query.publisherId === '') {
       res.status(401).send('Either a bearer token in the header or a PublisherId query string parameter is required.');
       return;
@@ -17,6 +25,18 @@ export const extractPublisher = (services: ServicesContainer) => (req: Request, 
     publisherId = req.query.publisherId as string;
   } else {
     const decoded = services.jwt.decodeToken(token);
+
+    // LOCAL DEV MODE: If token decode fails and REQUIRE_AUTH=false, use config publisherId
+    if (decoded === null || decoded === undefined) {
+      if (!services.config.requireAuth) {
+        publisherId = services.config.publisherId;
+        (req as RequestWithPublisher).publisherId = publisherId;
+        next();
+        return;
+      }
+      res.status(401).send('Invalid bearer token.');
+      return;
+    }
 
     if (decoded.tid === undefined || decoded.appid === undefined) {
       res.status(401).send('TenantId & AppId required in token.');
