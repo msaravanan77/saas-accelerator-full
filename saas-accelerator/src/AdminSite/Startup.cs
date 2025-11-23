@@ -89,10 +89,11 @@ public class Startup
             KnownUsers = this.Configuration["KnownUsers"],
         };
 
-        // LOCAL DEV MODE: Use null credentials for API emulator (no bearer token auth on HTTP)
+        // LOCAL DEV MODE: Use mock credentials for API emulator (dummy token, no real auth)
+        // The API emulator runs with REQUIRE_AUTH=false and ignores bearer tokens
         // In production, use real credentials for HTTPS endpoints
         var creds = config.Environment == "LocalDev"
-            ? null
+            ? new MockTokenCredential()
             : new ClientSecretCredential(config.TenantId.ToString(), config.ClientId.ToString(), config.ClientSecret);
         var boolMultiTenant = config.IsAdminPortalMultiTenant?.ToLower().Trim() ?? "false";
 
