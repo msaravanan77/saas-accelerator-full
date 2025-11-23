@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1400" height="1200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: bold 24px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: 16px sans-serif; fill: #4a4a4a; }
+      .section-title { font: bold 18px sans-serif; fill: #2c3e50; }
+      .label { font: 14px sans-serif; fill: #2c3e50; }
+      .small-label { font: 12px sans-serif; fill: #555; }
+      .actor-label { font: bold 16px sans-serif; fill: #ffffff; }
+      .step-number { font: bold 20px sans-serif; fill: #ffffff; }
+      .arrow { fill: none; stroke: #3498db; stroke-width: 3; marker-end: url(#arrowhead); }
+      .arrow-red { fill: none; stroke: #e74c3c; stroke-width: 3; marker-end: url(#arrowhead-red); stroke-dasharray: 8,4; }
+      .arrow-green { fill: none; stroke: #27ae60; stroke-width: 3; marker-end: url(#arrowhead-green); }
+      .problem-box { fill: #ffebee; stroke: #e74c3c; stroke-width: 2; }
+      .solution-box { fill: #e8f5e9; stroke: #27ae60; stroke-width: 2; }
+      .actor-box { fill: #3498db; stroke: #2980b9; stroke-width: 2; }
+      .component-box { fill: #ecf0f1; stroke: #95a5a6; stroke-width: 2; }
+      .flow-box { fill: #fff3e0; stroke: #f39c12; stroke-width: 2; }
+      .step-circle { fill: #e74c3c; stroke: #c0392b; stroke-width: 2; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#3498db" />
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#e74c3c" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#27ae60" />
+    </marker>
+  </defs>
+
+  <!-- Title Section -->
+  <text x="700" y="40" class="title" text-anchor="middle">Azure Marketplace SaaS - End-to-End User Flow</text>
+  <text x="700" y="65" class="subtitle" text-anchor="middle">Complete Local Development Environment Without Azure AD</text>
+
+  <!-- Problem vs Solution Section -->
+  <g id="problem-solution">
+    <text x="50" y="110" class="section-title">❌ Traditional Problem</text>
+    <rect x="50" y="120" width="620" height="120" class="problem-box" rx="8"/>
+    <text x="70" y="150" class="label">⚠️ Requires Azure Partner Center Access</text>
+    <text x="70" y="175" class="label">⚠️ Needs Azure AD Tenant with App Registrations</text>
+    <text x="70" y="200" class="label">⚠️ Requires Public Endpoints for Webhooks</text>
+    <text x="70" y="225" class="label">⚠️ Cannot Test Locally Without Cloud Resources</text>
+
+    <text x="730" y="110" class="section-title">✅ Our Solution</text>
+    <rect x="730" y="120" width="620" height="120" class="solution-box" rx="8"/>
+    <text x="750" y="150" class="label">✓ No Partner Center - Use API Emulator</text>
+    <text x="750" y="175" class="label">✓ No Azure AD - Mock Authentication</text>
+    <text x="750" y="200" class="label">✓ No Public Endpoints - Docker Networking</text>
+    <text x="750" y="225" class="label">✓ Complete Local Testing - 100% Offline</text>
+  </g>
+
+  <!-- Actors Section -->
+  <g id="actors">
+    <text x="50" y="290" class="section-title">Key Actors</text>
+
+    <!-- Individual Developer -->
+    <rect x="50" y="300" width="180" height="80" class="actor-box" rx="8"/>
+    <text x="140" y="330" class="actor-label" text-anchor="middle">👤 Individual</text>
+    <text x="140" y="350" class="actor-label" text-anchor="middle">Developer</text>
+    <text x="140" y="370" class="small-label" text-anchor="middle" fill="#fff">Learning & Testing</text>
+
+    <!-- Customer -->
+    <rect x="260" y="300" width="180" height="80" class="actor-box" rx="8"/>
+    <text x="350" y="330" class="actor-label" text-anchor="middle">👥 Customer</text>
+    <text x="350" y="350" class="actor-label" text-anchor="middle">(End User)</text>
+    <text x="350" y="370" class="small-label" text-anchor="middle" fill="#fff">Subscribes to SaaS</text>
+
+    <!-- Publisher -->
+    <rect x="470" y="300" width="180" height="80" class="actor-box" rx="8"/>
+    <text x="560" y="330" class="actor-label" text-anchor="middle">🏢 Publisher</text>
+    <text x="560" y="350" class="actor-label" text-anchor="middle">(ISV Partner)</text>
+    <text x="560" y="370" class="small-label" text-anchor="middle" fill="#fff">Manages Offers</text>
+
+    <!-- System Components -->
+    <rect x="680" y="300" width="670" height="80" class="component-box" rx="8"/>
+    <text x="1015" y="325" class="section-title" text-anchor="middle">🐳 System Components (Docker)</text>
+    <text x="740" y="355" class="label">• API Emulator (Port 8080)</text>
+    <text x="740" y="370" class="label">• CustomerSite (Port 5000)</text>
+    <text x="980" y="355" class="label">• AdminSite (Port 5001)</text>
+    <text x="980" y="370" class="label">• SQL Server (Port 1433)</text>
+  </g>
+
+  <!-- Main Flow Diagram -->
+  <g id="main-flow">
+    <text x="50" y="430" class="section-title">Complete User Journey Flow</text>
+
+    <!-- Step 1: Marketplace Discovery -->
+    <circle cx="100" cy="470" r="25" class="step-circle"/>
+    <text x="100" y="478" class="step-number" text-anchor="middle">1</text>
+    <rect x="150" y="445" width="500" height="80" class="flow-box" rx="8"/>
+    <text x="160" y="470" class="label" font-weight="bold">Marketplace Discovery</text>
+    <text x="160" y="490" class="small-label">Developer opens: http://172.28.10.162:8080/</text>
+    <text x="160" y="507" class="small-label">• Browses available SaaS offers</text>
+    <text x="160" y="520" class="small-label">• Selects plan (Bronze, Silver, Gold)</text>
+
+    <!-- Arrow to Step 2 -->
+    <path d="M 400 525 L 400 560" class="arrow"/>
+
+    <!-- Step 2: Purchase Token Generation -->
+    <circle cx="100" cy="585" r="25" class="step-circle"/>
+    <text x="100" y="593" class="step-number" text-anchor="middle">2</text>
+    <rect x="150" y="560" width="500" height="80" class="flow-box" rx="8"/>
+    <text x="160" y="585" class="label" font-weight="bold">Purchase & Token Generation</text>
+    <text x="160" y="605" class="small-label">• Click "Subscribe" button</text>
+    <text x="160" y="620" class="small-label">• Emulator generates Base64 purchase token</text>
+    <text x="160" y="635" class="small-label">• Redirects to: http://172.28.10.162:5000/?token=xxx</text>
+
+    <!-- Arrow to Step 3 -->
+    <path d="M 400 640 L 400 675" class="arrow"/>
+
+    <!-- Step 3: Landing Page & Auth Bypass -->
+    <circle cx="100" cy="700" r="25" class="step-circle"/>
+    <text x="100" y="708" class="step-number" text-anchor="middle">3</text>
+    <rect x="150" y="675" width="500" height="110" class="flow-box" rx="8"/>
+    <text x="160" y="700" class="label" font-weight="bold">🔓 Authentication Bypass (Key Innovation)</text>
+    <text x="160" y="720" class="small-label" font-weight="bold" fill="#e74c3c">Traditional: Redirect to Azure AD → User Login → Redirect Back</text>
+    <text x="160" y="735" class="small-label" font-weight="bold" fill="#27ae60">Our Solution: Auto-login with Mock User</text>
+    <text x="160" y="750" class="small-label">• No Azure AD redirect</text>
+    <text x="160" y="765" class="small-label">• Cookie-based session created instantly</text>
+    <text x="160" y="780" class="small-label">• User: local-dev@example.com</text>
+
+    <!-- Arrow to Step 4 -->
+    <path d="M 400 785 L 400 820" class="arrow-green"/>
+
+    <!-- Step 4: Token Resolution -->
+    <circle cx="100" cy="845" r="25" class="step-circle"/>
+    <text x="100" y="853" class="step-number" text-anchor="middle">4</text>
+    <rect x="150" y="820" width="500" height="95" class="flow-box" rx="8"/>
+    <text x="160" y="845" class="label" font-weight="bold">Token Resolution & API Call</text>
+    <text x="160" y="865" class="small-label">CustomerSite → POST /api/saas/subscriptions/resolve</text>
+    <text x="160" y="880" class="small-label">→ API Emulator decodes token</text>
+    <text x="160" y="895" class="small-label">← Returns: SubscriptionID, OfferID, PlanID, Purchaser Info</text>
+    <text x="160" y="910" class="small-label">← Saves to SQL Database</text>
+
+    <!-- Arrow to Step 5 -->
+    <path d="M 400 915 L 400 950" class="arrow"/>
+
+    <!-- Step 5: Subscription Activation -->
+    <circle cx="100" cy="975" r="25" class="step-circle"/>
+    <text x="100" y="983" class="step-number" text-anchor="middle">5</text>
+    <rect x="150" y="950" width="500" height="80" class="flow-box" rx="8"/>
+    <text x="160" y="975" class="label" font-weight="bold">Subscription Activation</text>
+    <text x="160" y="995" class="small-label">• User clicks "Activate Subscription"</text>
+    <text x="160" y="1010" class="small-label">→ POST /api/saas/subscriptions/{id}/activate</text>
+    <text x="160" y="1025" class="small-label">← Subscription status: Subscribed</text>
+
+    <!-- Right side - Customer Portal -->
+    <rect x="700" y="445" width="650" height="250" class="component-box" rx="8"/>
+    <text x="1025" y="475" class="section-title" text-anchor="middle">👥 Customer Portal (Port 5000)</text>
+
+    <text x="720" y="505" class="label" font-weight="bold">Available Actions:</text>
+    <text x="720" y="525" class="small-label">✓ View All Active Subscriptions</text>
+    <text x="720" y="540" class="small-label">✓ Change Subscription Plan (Upgrade/Downgrade)</text>
+    <text x="720" y="555" class="small-label">✓ Update Quantity</text>
+    <text x="720" y="570" class="small-label">✓ View Subscription History</text>
+    <text x="720" y="585" class="small-label">✓ View Billing Details</text>
+
+    <text x="720" y="615" class="label" font-weight="bold">Mock User Context:</text>
+    <text x="720" y="635" class="small-label">Email: local-dev@example.com</text>
+    <text x="720" y="650" class="small-label">Name: Local Dev User</text>
+    <text x="720" y="665" class="small-label">Auth: Cookie-based (no Azure AD)</text>
+    <text x="720" y="680" class="small-label">Session: 60 minutes</text>
+
+    <!-- Publisher Portal -->
+    <rect x="700" y="715" width="650" height="280" class="component-box" rx="8"/>
+    <text x="1025" y="745" class="section-title" text-anchor="middle">🏢 Publisher Portal (Port 5001)</text>
+
+    <text x="720" y="775" class="label" font-weight="bold">Publisher Capabilities:</text>
+    <text x="720" y="795" class="small-label">✓ View All Customer Subscriptions</text>
+    <text x="720" y="810" class="small-label">✓ Manage Offers and Plans</text>
+    <text x="720" y="825" class="small-label">✓ Configure Pricing</text>
+    <text x="720" y="840" class="small-label">✓ View Subscription Audit Logs</text>
+    <text x="720" y="855" class="small-label">✓ Process Subscription Changes</text>
+    <text x="720" y="870" class="small-label">✓ Handle Suspensions/Cancellations</text>
+
+    <text x="720" y="900" class="label" font-weight="bold">Mock Admin User:</text>
+    <text x="720" y="920" class="small-label">Email: admin-dev@example.com</text>
+    <text x="720" y="935" class="small-label">Name: Local Admin User</text>
+    <text x="720" y="950" class="small-label">Role: Administrator (RoleId: 1)</text>
+    <text x="720" y="965" class="small-label">Auth: Auto-registered in KnownUsers table</text>
+    <text x="720" y="980" class="small-label">Access: All admin functions unlocked</text>
+
+    <!-- Webhook Flow -->
+    <rect x="700" y="1015" width="650" height="100" class="flow-box" rx="8"/>
+    <text x="1025" y="1040" class="label" font-weight="bold" text-anchor="middle">🔄 Webhook Notifications (Async)</text>
+    <text x="720" y="1065" class="small-label">Emulator → http://customersite:80/api/AzureWebhook</text>
+    <text x="720" y="1080" class="small-label">Events: Plan Changed, Suspended, Reinstated, Unsubscribed</text>
+    <text x="720" y="1095" class="small-label">CustomerSite processes webhook → Updates database → Triggers notifications</text>
+  </g>
+
+  <!-- Connection Lines -->
+  <path d="M 650 485 L 700 485" class="arrow" stroke-dasharray="5,5"/>
+  <path d="M 650 730 L 700 595" class="arrow-green" stroke-dasharray="5,5"/>
+  <path d="M 650 990 L 700 880" class="arrow" stroke-dasharray="5,5"/>
+
+  <!-- Footer -->
+  <rect x="50" y="1135" width="1300" height="50" fill="#34495e" rx="8"/>
+  <text x="700" y="1160" class="actor-label" text-anchor="middle" font-size="14">
+    🎯 Result: Complete marketplace flow tested locally without Azure Partner Center or Azure AD
+  </text>
+  <text x="700" y="1178" class="small-label" text-anchor="middle" fill="#ecf0f1">
+    Learning • Development • Testing • All Offline • Zero Cloud Costs
+  </text>
+</svg>

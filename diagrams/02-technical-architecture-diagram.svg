@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1600" height="1400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: bold 26px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: 16px sans-serif; fill: #4a4a4a; }
+      .section-title { font: bold 18px sans-serif; fill: #2c3e50; }
+      .label { font: 14px sans-serif; fill: #2c3e50; }
+      .small-label { font: 12px sans-serif; fill: #555; }
+      .code-label { font: 11px monospace; fill: #2c3e50; }
+      .docker-label { font: bold 16px sans-serif; fill: #ffffff; }
+      .arrow { fill: none; stroke: #3498db; stroke-width: 2.5; marker-end: url(#arrowhead); }
+      .arrow-auth { fill: none; stroke: #e74c3c; stroke-width: 3; marker-end: url(#arrowhead-red); stroke-dasharray: 8,4; }
+      .arrow-data { fill: none; stroke: #27ae60; stroke-width: 2.5; marker-end: url(#arrowhead-green); }
+      .arrow-webhook { fill: none; stroke: #f39c12; stroke-width: 2; marker-end: url(#arrowhead-orange); stroke-dasharray: 6,3; }
+      .docker-container { fill: #3498db; stroke: #2980b9; stroke-width: 3; }
+      .docker-sql { fill: #16a085; stroke: #138f77; stroke-width: 3; }
+      .docker-emulator { fill: #e67e22; stroke: #d35400; stroke-width: 3; }
+      .network-box { fill: none; stroke: #95a5a6; stroke-width: 2; stroke-dasharray: 10,5; }
+      .auth-box { fill: #fff5f5; stroke: #e74c3c; stroke-width: 2; }
+      .config-box { fill: #f0f8ff; stroke: #3498db; stroke-width: 2; }
+      .api-box { fill: #f0fff4; stroke: #27ae60; stroke-width: 2; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#3498db" />
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#e74c3c" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#27ae60" />
+    </marker>
+    <marker id="arrowhead-orange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#f39c12" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="800" y="40" class="title" text-anchor="middle">Technical Architecture & Component Interactions</text>
+  <text x="800" y="65" class="subtitle" text-anchor="middle">Docker-based Local Development Environment with Authentication Bypass</text>
+
+  <!-- Docker Network -->
+  <rect x="50" y="100" width="1500" height="1250" class="network-box" rx="15"/>
+  <text x="800" y="130" class="section-title" text-anchor="middle">🐳 Docker Network: saas-network (bridge)</text>
+
+  <!-- Browser (outside Docker) -->
+  <rect x="50" y="30" width="200" height="60" fill="#9b59b6" stroke="#8e44ad" stroke-width="3" rx="8"/>
+  <text x="150" y="55" class="docker-label" text-anchor="middle">🌐 Browser</text>
+  <text x="150" y="75" class="small-label" text-anchor="middle" fill="#fff">http://172.28.10.162</text>
+
+  <!-- API Emulator Container -->
+  <rect x="100" y="180" width="380" height="280" class="docker-emulator" rx="10"/>
+  <text x="290" y="210" class="docker-label" text-anchor="middle">📦 API Emulator (Node.js)</text>
+  <text x="290" y="230" class="small-label" text-anchor="middle" fill="#fff">Container: saas-api-emulator</text>
+  <text x="290" y="245" class="small-label" text-anchor="middle" fill="#fff">Port: 8080:80</text>
+
+  <rect x="120" y="260" width="340" height="180" fill="#fff" rx="5"/>
+  <text x="130" y="280" class="label" font-weight="bold">Capabilities:</text>
+  <text x="130" y="300" class="small-label">• Generates purchase tokens (Base64)</text>
+  <text x="130" y="315" class="small-label">• Mocks Azure Fulfillment API v2</text>
+  <text x="130" y="330" class="small-label">• Resolve, Activate, List subscriptions</text>
+  <text x="130" y="345" class="small-label">• Sends webhook notifications</text>
+  <text x="130" y="360" class="small-label">• REQUIRE_AUTH=false (no Azure AD)</text>
+
+  <text x="130" y="385" class="label" font-weight="bold">Configuration:</text>
+  <text x="130" y="405" class="code-label">LANDING_PAGE_URL=http://172.28.10.162:5000/</text>
+  <text x="130" y="420" class="code-label">WEBHOOK_URL=http://customersite:80/api/...</text>
+  <text x="130" y="435" class="code-label">PUBLISHER_ID=LocalDevPublisher</text>
+
+  <!-- CustomerSite Container -->
+  <rect x="550" y="180" width="450" height="420" class="docker-container" rx="10"/>
+  <text x="775" y="210" class="docker-label" text-anchor="middle">📦 CustomerSite (.NET 6)</text>
+  <text x="775" y="230" class="small-label" text-anchor="middle" fill="#fff">Container: saas-customersite</text>
+  <text x="775" y="245" class="small-label" text-anchor="middle" fill="#fff">Port: 5000:80</text>
+
+  <rect x="570" y="260" width="410" height="320" fill="#fff" rx="5"/>
+  <text x="580" y="280" class="label" font-weight="bold">Landing Page & Customer Portal</text>
+
+  <text x="580" y="305" class="label" font-weight="bold" fill="#e74c3c">🔓 Authentication Bypass:</text>
+  <text x="580" y="325" class="small-label">✗ Removed: OpenIdConnect (Azure AD)</text>
+  <text x="580" y="340" class="small-label">✓ Added: Cookie-only authentication</text>
+  <text x="580" y="355" class="small-label">✓ MockLogin endpoint: /Account/MockLogin</text>
+  <text x="580" y="370" class="small-label">✓ Auto-creates session with mock claims</text>
+
+  <text x="580" y="395" class="label" font-weight="bold">API Client Configuration:</text>
+  <text x="580" y="415" class="code-label">FulfillmentAPIBaseURL: http://api-emulator:80/api</text>
+  <text x="580" y="430" class="code-label">ClientId: 00000000-0000-... (dummy)</text>
+  <text x="580" y="445" class="code-label">TenantId: 00000000-0000-... (dummy)</text>
+  <text x="580" y="460" class="small-label">Note: Emulator ignores these credentials</text>
+
+  <text x="580" y="485" class="label" font-weight="bold">Key Endpoints:</text>
+  <text x="580" y="505" class="code-label">GET  / → Landing page (token processing)</text>
+  <text x="580" y="520" class="code-label">GET  /Subscriptions → Customer portal</text>
+  <text x="580" y="535" class="code-label">POST /api/AzureWebhook → Webhook handler</text>
+  <text x="580" y="550" class="code-label">GET  /Account/MockLogin → Auto-login</text>
+
+  <text x="580" y="575" class="label" font-weight="bold">Mock User Claims:</text>
+  <text x="580" y="590" class="code-label">Email: local-dev@example.com</text>
+
+  <!-- AdminSite Container -->
+  <rect x="1050" y="180" width="450" height="420" class="docker-container" rx="10"/>
+  <text x="1275" y="210" class="docker-label" text-anchor="middle">📦 AdminSite (.NET 6)</text>
+  <text x="1275" y="230" class="small-label" text-anchor="middle" fill="#fff">Container: saas-adminsite</text>
+  <text x="1275" y="245" class="small-label" text-anchor="middle" fill="#fff">Port: 5001:80</text>
+
+  <rect x="1070" y="260" width="410" height="320" fill="#fff" rx="5"/>
+  <text x="1080" y="280" class="label" font-weight="bold">Publisher Portal & Admin</text>
+
+  <text x="1080" y="305" class="label" font-weight="bold" fill="#e74c3c">🔓 Authentication Bypass:</text>
+  <text x="1080" y="325" class="small-label">✗ Removed: OpenIdConnect (Azure AD)</text>
+  <text x="1080" y="340" class="small-label">✓ Added: Cookie-only authentication</text>
+  <text x="1080" y="355" class="small-label">✓ MockLogin endpoint: /Account/MockLogin</text>
+  <text x="1080" y="370" class="small-label">✓ KnownUserAttribute: Auto-register admin</text>
+
+  <text x="1080" y="395" class="label" font-weight="bold">API Client Configuration:</text>
+  <text x="1080" y="415" class="code-label">FulfillmentAPIBaseURL: http://api-emulator:80/api</text>
+  <text x="1080" y="430" class="code-label">ClientId: 00000000-0000-... (dummy)</text>
+  <text x="1080" y="445" class="code-label">IsAdminPortalMultiTenant: false</text>
+
+  <text x="1080" y="470" class="label" font-weight="bold">Key Endpoints:</text>
+  <text x="1080" y="490" class="code-label">GET  / → Admin dashboard</text>
+  <text x="1080" y="505" class="code-label">GET  /Subscriptions → All subscriptions</text>
+  <text x="1080" y="520" class="code-label">GET  /Offers → Manage offers/plans</text>
+  <text x="1080" y="535" class="code-label">GET  /ApplicationLog → Audit logs</text>
+
+  <text x="1080" y="560" class="label" font-weight="bold">Mock Admin User:</text>
+  <text x="1080" y="575" class="code-label">Email: admin-dev@example.com</text>
+  <text x="1080" y="590" class="code-label">Auto-registered in KnownUsers table</text>
+
+  <!-- SQL Server Container -->
+  <rect x="550" y="650" width="450" height="280" class="docker-sql" rx="10"/>
+  <text x="775" y="680" class="docker-label" text-anchor="middle">📦 SQL Server 2022</text>
+  <text x="775" y="700" class="small-label" text-anchor="middle" fill="#fff">Container: saas-sqlserver</text>
+  <text x="775" y="715" class="small-label" text-anchor="middle" fill="#fff">Port: 1433:1433</text>
+
+  <rect x="570" y="730" width="410" height="180" fill="#fff" rx="5"/>
+  <text x="580" y="750" class="label" font-weight="bold">Database: AMPSaaSDB</text>
+
+  <text x="580" y="775" class="label" font-weight="bold">Key Tables:</text>
+  <text x="580" y="795" class="small-label">• Subscriptions - Active subscriptions</text>
+  <text x="580" y="810" class="small-label">• Plans - Pricing plans per offer</text>
+  <text x="580" y="825" class="small-label">• Offers - SaaS offers configuration</text>
+  <text x="580" y="840" class="small-label">• Users - Customer user records</text>
+  <text x="580" y="855" class="small-label">• KnownUsers - Whitelisted admin users</text>
+  <text x="580" y="870" class="small-label">• SubscriptionAuditLogs - Audit trail</text>
+
+  <text x="580" y="895" class="label" font-weight="bold">Connection String:</text>
+  <text x="580" y="910" class="code-label">Server=sqlserver;Database=AMPSaaSDB;</text>
+
+  <!-- API Flow Arrows -->
+  <text x="50" y="980" class="section-title">API Communication Flows</text>
+
+  <!-- Browser to Emulator -->
+  <path d="M 150 90 L 290 180" class="arrow"/>
+  <text x="180" y="130" class="small-label" fill="#3498db">① HTTP GET /</text>
+  <text x="180" y="145" class="small-label" fill="#3498db">Browse offers</text>
+
+  <!-- Emulator to CustomerSite (token redirect) -->
+  <path d="M 480 320 L 550 320" class="arrow"/>
+  <text x="485" y="310" class="small-label" fill="#3498db">② Redirect with token</text>
+  <text x="485" y="325" class="code-label" fill="#3498db">?token=Base64(...)</text>
+
+  <!-- CustomerSite to Emulator (resolve) -->
+  <path d="M 570 380 L 480 380" class="arrow-data"/>
+  <text x="485" y="370" class="small-label" fill="#27ae60">③ POST /resolve</text>
+  <text x="485" y="395" class="small-label" fill="#27ae60">← Subscription details</text>
+
+  <!-- CustomerSite to SQL (save) -->
+  <path d="M 775 600 L 775 650" class="arrow-data"/>
+  <text x="785" y="625" class="small-label" fill="#27ae60">④ Save subscription</text>
+
+  <!-- AdminSite to SQL (query) -->
+  <path d="M 1070 750 L 1000 750" class="arrow-data"/>
+  <text x="1010" y="740" class="small-label" fill="#27ae60">⑤ Query all data</text>
+
+  <!-- Emulator to CustomerSite (webhook) -->
+  <path d="M 290 460 L 290 550 L 550 550" class="arrow-webhook"/>
+  <text x="300" y="500" class="small-label" fill="#f39c12">⑥ Webhook notification</text>
+  <text x="300" y="560" class="code-label" fill="#f39c12">POST /api/AzureWebhook</text>
+
+  <!-- Authentication Flow Detail -->
+  <rect x="100" y="1000" width="1400" height="320" class="auth-box" rx="10"/>
+  <text x="800" y="1030" class="section-title" text-anchor="middle">🔐 Authentication Bypass Mechanism (Critical Innovation)</text>
+
+  <!-- Traditional Flow (crossed out) -->
+  <rect x="120" y="1050" width="680" height="120" fill="#fff" stroke="#e74c3c" stroke-width="2" rx="5"/>
+  <text x="130" y="1075" class="label" font-weight="bold" fill="#e74c3c">❌ Traditional Flow (What We Removed)</text>
+  <line x1="120" y1="1050" x2="800" y2="1170" stroke="#e74c3c" stroke-width="4"/>
+  <line x1="800" y1="1050" x2="120" y2="1170" stroke="#e74c3c" stroke-width="4"/>
+
+  <text x="130" y="1095" class="small-label">1. User lands on page → Not authenticated</text>
+  <text x="130" y="1110" class="small-label">2. Redirect to: login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize</text>
+  <text x="130" y="1125" class="small-label">3. User logs in with Azure AD credentials</text>
+  <text x="130" y="1140" class="small-label">4. Azure AD redirects back with ID token</text>
+  <text x="130" y="1155" class="small-label">5. App validates token, creates session</text>
+
+  <!-- Our Flow -->
+  <rect x="820" y="1050" width="660" height="120" fill="#fff" stroke="#27ae60" stroke-width="2" rx="5"/>
+  <text x="830" y="1075" class="label" font-weight="bold" fill="#27ae60">✅ Our Flow (Bypass Solution)</text>
+
+  <text x="830" y="1095" class="small-label">1. User lands on page → Redirect to /Account/MockLogin</text>
+  <text x="830" y="1110" class="small-label">2. MockLogin creates ClaimsPrincipal with mock user</text>
+  <text x="830" y="1125" class="small-label">3. Signs in user with CookieAuthentication</text>
+  <text x="830" y="1140" class="small-label">4. Sets cookie: .AspNetCore.Cookies</text>
+  <text x="830" y="1155" class="small-label">5. Redirects back to original URL - INSTANT!</text>
+
+  <!-- Code Changes -->
+  <rect x="120" y="1185" width="1360" height="120" fill="#f0f8ff" stroke="#3498db" stroke-width="2" rx="5"/>
+  <text x="130" y="1210" class="label" font-weight="bold">Code Modifications Applied:</text>
+
+  <text x="130" y="1235" class="code-label">Startup.cs: .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)</text>
+  <text x="130" y="1250" class="code-label">           .AddCookie(options => { LoginPath = "/Account/MockLogin"; })</text>
+  <text x="130" y="1265" class="code-label">AccountController.cs: [AllowAnonymous] MockLogin() { Create Claims → SignIn → Redirect }</text>
+  <text x="130" y="1280" class="code-label">BaseController.cs: CurrentUserEmailAddress => claim ?? "local-dev@example.com"</text>
+  <text x="130" y="1295" class="code-label">KnownUserAttribute.cs: Auto-register mock user in database if not exists</text>
+
+  <!-- Footer Legend -->
+  <rect x="50" y="1340" width="1500" height="50" fill="#2c3e50" rx="8"/>
+  <text x="800" y="1360" class="docker-label" text-anchor="middle" font-size="14">Legend</text>
+  <rect x="100" y="1375" width="15" height="3" fill="#3498db"/>
+  <text x="120" y="1380" class="small-label" fill="#fff">API Call</text>
+
+  <rect x="250" y="1375" width="15" height="3" fill="#27ae60"/>
+  <text x="270" y="1380" class="small-label" fill="#fff">Data Flow</text>
+
+  <rect x="400" y="1375" width="15" height="3" fill="#e74c3c" stroke-dasharray="8,4"/>
+  <text x="420" y="1380" class="small-label" fill="#fff">Auth Flow (Bypassed)</text>
+
+  <rect x="630" y="1375" width="15" height="3" fill="#f39c12" stroke-dasharray="6,3"/>
+  <text x="650" y="1380" class="small-label" fill="#fff">Webhook</text>
+
+  <text x="900" y="1380" class="small-label" fill="#fff">Docker DNS: api-emulator, customersite, adminsite, sqlserver</text>
+</svg>

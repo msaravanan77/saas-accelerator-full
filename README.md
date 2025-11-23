@@ -9,6 +9,24 @@ Run the entire Azure Marketplace SaaS flow locally without Azure Partner Center,
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Project vision, architecture, and value proposition
 - **[MODIFICATIONS.md](./MODIFICATIONS.md)** - Detailed code changes and technical explanations
 
+## 📊 Visual Architecture Diagrams
+
+Professional-grade SVG diagrams to understand the complete system:
+
+- **[User Flow Diagram](./diagrams/01-user-flow-diagram.svg)** - End-to-end user journey from marketplace to subscription management
+  - Shows the complete flow: Purchase → Authentication Bypass → Activation → Management
+  - Highlights the problem we solve vs traditional approach
+  - Actor interactions: Developer, Customer, Publisher, System Components
+
+- **[Technical Architecture Diagram](./diagrams/02-technical-architecture-diagram.svg)** - Internal system architecture and component interactions
+  - Docker container architecture and networking
+  - API communication flows (Resolve, Activate, Webhooks)
+  - Authentication bypass mechanism (Traditional vs Our Solution)
+  - Database schema and relationships
+  - Code modification highlights
+
+**Tip:** Open these SVG files in your browser for best viewing experience. They're fully interactive and scalable.
+
 ## 🚀 Quick Start
 
 ### Prerequisites

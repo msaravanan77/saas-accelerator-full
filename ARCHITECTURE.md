@@ -1,5 +1,9 @@
 # Local Azure Marketplace SaaS Accelerator - Complete Development Environment
 
+> **📊 Visual Learner?** Check out our professional architecture diagrams:
+> - [User Flow Diagram](./diagrams/01-user-flow-diagram.svg) - Complete user journey
+> - [Technical Architecture Diagram](./diagrams/02-technical-architecture-diagram.svg) - System internals
+
 ## 🎯 What Are We Trying to Achieve?
 
 This project creates a **completely local, offline-capable development environment** for testing Azure Marketplace SaaS applications without requiring:
