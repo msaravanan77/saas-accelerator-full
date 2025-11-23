@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Marketplace.SaaS.Accelerator.AdminSite;
 
@@ -15,6 +18,11 @@ public class Program
     /// <param name="args">The arguments.</param>
     public static void Main(string[] args)
     {
+        // LOCAL DEV MODE: Ignore SSL certificate validation errors for API emulator
+        // The emulator uses HTTP but we configure it as HTTPS to bypass Azure SDK bearer token restrictions
+        ServicePointManager.ServerCertificateValidationCallback =
+            (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) => true;
+
         CreateHostBuilder(args).Build().Run();
         var loggerFactory = LoggerFactory.Create(builder =>
         {
