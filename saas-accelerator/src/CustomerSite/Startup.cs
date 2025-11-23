@@ -160,6 +160,23 @@ public class Startup
                 loggerFactory.CreateLogger<Startup>().LogError(ex, "An error occurred while applying database migrations.");
                 throw;
             }
+
+            // LOCAL DEV MODE: Disable webhook JWT validation for local development
+            // The API emulator doesn't send valid Azure AD tokens when calling webhooks
+            var environment = this.Configuration["SaaSApiConfiguration:Environment"];
+            if (environment == "LocalDev")
+            {
+                var appConfigRepo = scope.ServiceProvider.GetRequiredService<IApplicationConfigRepository>();
+                try
+                {
+                    appConfigRepo.SaveValueByName("ValidateWebhookJwtToken", "false");
+                    loggerFactory.CreateLogger<Startup>().LogInformation("Disabled webhook JWT validation for LocalDev environment.");
+                }
+                catch (Exception ex)
+                {
+                    loggerFactory.CreateLogger<Startup>().LogWarning(ex, "Failed to disable webhook JWT validation.");
+                }
+            }
         }
 
         if (env.IsDevelopment())
