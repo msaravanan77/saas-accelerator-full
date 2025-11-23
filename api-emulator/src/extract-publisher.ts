@@ -11,7 +11,7 @@ export const extractPublisher = (services: ServicesContainer) => (req: Request, 
   if (token === undefined) {
     // LOCAL DEV MODE: If REQUIRE_AUTH=false and no token, check for publisherId in query or use config default
     if (!services.config.requireAuth) {
-      publisherId = (req.query.publisherId as string) || services.config.publisherId;
+      publisherId = (req.query.publisherId as string) || services.config.publisherId || 'DefaultPublisher';
       (req as RequestWithPublisher).publisherId = publisherId;
       next();
       return;
@@ -29,7 +29,7 @@ export const extractPublisher = (services: ServicesContainer) => (req: Request, 
     // LOCAL DEV MODE: If token decode fails and REQUIRE_AUTH=false, use config publisherId
     if (decoded === null || decoded === undefined) {
       if (!services.config.requireAuth) {
-        publisherId = services.config.publisherId;
+        publisherId = services.config.publisherId || 'DefaultPublisher';
         (req as RequestWithPublisher).publisherId = publisherId;
         next();
         return;
