@@ -1,39 +1,41 @@
 # Dockerfile for CustomerSite (Landing Page and Subscription Portal)
-# This builds the customer-facing SaaS application
+# Multi-stage build: Compiles source code → Publishes → Creates runtime image
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+# Stage 1: Build - Uses full SDK to compile the .NET 8.0 application
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy project files
+# Copy project files for dependency resolution
 COPY ["CustomerSite/CustomerSite.csproj", "CustomerSite/"]
 COPY ["Services/Services.csproj", "Services/"]
 COPY ["DataAccess/DataAccess.csproj", "DataAccess/"]
 
-# Restore dependencies
+# Restore NuGet packages (cached if project files don't change)
 RUN dotnet restore "CustomerSite/CustomerSite.csproj"
 
-# Copy source code
+# Copy all source code
 COPY . .
 
-# Build the application
+# Build the application in Release mode
 WORKDIR "/src/CustomerSite"
 RUN dotnet build "CustomerSite.csproj" -c Release -o /app/build
 
-# Publish the application
+# Stage 2: Publish - Create deployment-ready output
 FROM build AS publish
-RUN dotnet publish "CustomerSite.csproj" -c Release -o /app/publish
+RUN dotnet publish "CustomerSite.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# Runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+# Stage 3: Final - Lightweight runtime image (no SDK, just runtime)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-# Copy published application
+# Copy only the published output (not source code)
 COPY --from=publish /app/publish .
 
 # Set environment variables for ASP.NET Core
 ENV ASPNETCORE_URLS=http://+:80
 ENV ASPNETCORE_ENVIRONMENT=Development
 
+# Run the compiled application
 ENTRYPOINT ["dotnet", "Marketplace.SaaS.Accelerator.CustomerSite.dll"]
