@@ -130,6 +130,23 @@ public class Startup
     /// <param name="loggerFactory">The loggerFactory<see cref="ILoggerFactory" />.</param>
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
     {
+        // LOCAL DEV MODE: Automatically apply Entity Framework migrations on startup
+        using (var scope = app.ApplicationServices.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<SaasKitContext>();
+            try
+            {
+                loggerFactory.CreateLogger<Startup>().LogInformation("Applying database migrations...");
+                context.Database.Migrate();
+                loggerFactory.CreateLogger<Startup>().LogInformation("Database migrations applied successfully.");
+            }
+            catch (Exception ex)
+            {
+                loggerFactory.CreateLogger<Startup>().LogError(ex, "An error occurred while applying database migrations.");
+                throw;
+            }
+        }
+
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();

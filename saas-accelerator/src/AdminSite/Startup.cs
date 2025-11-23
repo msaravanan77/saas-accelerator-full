@@ -163,6 +163,24 @@ public class Startup
     /// <param name="env">The env.</param>
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        // LOCAL DEV MODE: Automatically apply Entity Framework migrations on startup
+        using (var scope = app.ApplicationServices.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<SaasKitContext>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
+            try
+            {
+                logger.LogInformation("Applying database migrations...");
+                context.Database.Migrate();
+                logger.LogInformation("Database migrations applied successfully.");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while applying database migrations.");
+                throw;
+            }
+        }
+
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
