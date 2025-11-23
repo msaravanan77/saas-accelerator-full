@@ -81,13 +81,19 @@ public class Startup
             SaaSAppUrl = this.Configuration["SaaSApiConfiguration:SaaSAppUrl"],
             SignedOutRedirectUri = this.Configuration["SaaSApiConfiguration:SignedOutRedirectUri"],
             TenantId = this.Configuration["SaaSApiConfiguration:TenantId"] ?? Guid.Empty.ToString(),
-            IsAdminPortalMultiTenant = this.Configuration["SaaSApiConfiguration:IsAdminPortalMultiTenant"]
+            IsAdminPortalMultiTenant = this.Configuration["SaaSApiConfiguration:IsAdminPortalMultiTenant"],
+            Environment = this.Configuration["SaaSApiConfiguration:Environment"]
         };
         var knownUsers = new KnownUsersModel()
         {
             KnownUsers = this.Configuration["KnownUsers"],
         };
-        var creds = new ClientSecretCredential(config.TenantId.ToString(), config.ClientId.ToString(), config.ClientSecret);
+
+        // LOCAL DEV MODE: Use null credentials for API emulator (no bearer token auth on HTTP)
+        // In production, use real credentials for HTTPS endpoints
+        var creds = config.Environment == "LocalDev"
+            ? null
+            : new ClientSecretCredential(config.TenantId.ToString(), config.ClientId.ToString(), config.ClientSecret);
         var boolMultiTenant = config.IsAdminPortalMultiTenant?.ToLower().Trim() ?? "false";
 
 

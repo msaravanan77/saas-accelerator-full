@@ -26,7 +26,8 @@ public class AccountController : Controller
     /// </returns>
     public IActionResult SignIn(string returnUrl)
     {
-        return this.Challenge(new AuthenticationProperties { RedirectUri = "/" }, OpenIdConnectDefaults.AuthenticationScheme);
+        // LOCAL DEV MODE: Redirect to MockLogin instead of Azure AD
+        return RedirectToAction("MockLogin", new { returnUrl });
     }
 
     /// <summary>
@@ -35,15 +36,11 @@ public class AccountController : Controller
     /// <returns>
     /// The <see cref="IActionResult" />.
     /// </returns>
-    public new SignOutResult SignOut()
+    public new async Task<IActionResult> SignOut()
     {
-        return this.SignOut(
-            new AuthenticationProperties
-            {
-                RedirectUri = "Home/Index/",
-            },
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            OpenIdConnectDefaults.AuthenticationScheme);
+        // LOCAL DEV MODE: Sign out of cookie authentication only
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction("Index", "Home");
     }
 
     /// <summary>

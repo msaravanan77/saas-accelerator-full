@@ -79,7 +79,12 @@ public class Startup
             TenantId = this.Configuration["SaaSApiConfiguration:TenantId"],
             Environment = this.Configuration["SaaSApiConfiguration:Environment"]
         };
-        var creds = new ClientSecretCredential(config.TenantId.ToString(), config.ClientId.ToString(), config.ClientSecret);
+
+        // LOCAL DEV MODE: Use null credentials for API emulator (no bearer token auth on HTTP)
+        // In production, use real credentials for HTTPS endpoints
+        var creds = config.Environment == "LocalDev"
+            ? null
+            : new ClientSecretCredential(config.TenantId.ToString(), config.ClientId.ToString(), config.ClientSecret);
 
         // LOCAL DEV MODE: Replace Azure AD OpenIdConnect with cookie-only authentication
         // This allows local development without Azure AD infrastructure
