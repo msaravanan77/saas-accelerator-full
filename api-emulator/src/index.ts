@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as dotenv from 'dotenv';
+import * as fs from 'fs';
+import * as https from 'https';
 import express from 'express';
 import configureSubscriptionApi from './subscription-api';
 import configureOperationsApi from './operations-api';
@@ -113,11 +115,26 @@ if (publisherId !== undefined && (publisherTenantId !== undefined || publisherAp
   // Setup our static web content
   app.use('/', express.static(path.resolve('src', 'client')));
 
-  
-  // Start the server
-  const server = app.listen(port, () => {
-    console.log(`\nListening to ${port}`);
-  });
+
+  // Start the server (HTTPS in LocalDev mode to satisfy Azure SDK bearer token requirements)
+  const enableHttps = (process.env.ENABLE_HTTPS ?? '').toLowerCase() === 'true';
+  let server;
+
+  if (enableHttps) {
+    // Use self-signed certificate for local development
+    const httpsOptions = {
+      key: fs.readFileSync('/etc/ssl/private/selfsigned.key'),
+      cert: fs.readFileSync('/etc/ssl/certs/selfsigned.crt')
+    };
+    server = https.createServer(httpsOptions, app);
+    server.listen(port, () => {
+      console.log(`\nListening on HTTPS port ${port}`);
+    });
+  } else {
+    server = app.listen(port, () => {
+      console.log(`\nListening on HTTP port ${port}`);
+    });
+  }
 
   server.on('upgrade', (req, socket, head) => {
     servicesContainer.notifications.upgradeConnection(socket, req, head);

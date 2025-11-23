@@ -123,8 +123,17 @@ public class Startup
             fulfillmentBaseApi = new Uri("https://marketplaceapi.microsoft.com/api");
         }
 
+        // LOCAL DEV MODE: Configure Azure SDK to ignore SSL certificate errors for HTTP API emulator
+        var marketplaceOptions = new MarketplaceSaaSClientOptions();
+        if (config.Environment == "LocalDev")
+        {
+            var handler = new System.Net.Http.HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            marketplaceOptions.Transport = new Azure.Core.Pipeline.HttpClientTransport(handler);
+        }
+
         services
-            .AddSingleton<IFulfillmentApiService>(new FulfillmentApiService(new MarketplaceSaaSClient(fulfillmentBaseApi, creds), config, new FulfillmentApiClientLogger()))
+            .AddSingleton<IFulfillmentApiService>(new FulfillmentApiService(new MarketplaceSaaSClient(fulfillmentBaseApi, creds, marketplaceOptions), config, new FulfillmentApiClientLogger()))
             .AddSingleton<IMeteredBillingApiService>(new MeteredBillingApiService(new MarketplaceMeteringClient(creds), config, new SaaSClientLogger<MeteredBillingApiService>()))
             .AddSingleton<SaaSApiClientConfiguration>(config)
             .AddSingleton<KnownUsersModel>(knownUsers);

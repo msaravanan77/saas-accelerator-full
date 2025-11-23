@@ -15,6 +15,17 @@ ENV PORT=80
 # Update Alpine packages for security
 RUN apk update && apk upgrade
 
+# Install OpenSSL for certificate generation
+RUN apk add --no-cache openssl
+
+# Generate self-signed certificate for local HTTPS development
+# This allows Azure SDK to send bearer tokens over localhost
+RUN mkdir -p /etc/ssl/private /etc/ssl/certs && \
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/ssl/private/selfsigned.key \
+    -out /etc/ssl/certs/selfsigned.crt \
+    -subj "/C=US/ST=State/L=City/O=LocalDev/CN=api-emulator"
+
 # Upgrade to latest npm (compatible with Node 20+)
 RUN npm install -g npm
 

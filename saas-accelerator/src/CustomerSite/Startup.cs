@@ -109,11 +109,17 @@ public class Startup
             fulfillmentBaseApi = new Uri("https://marketplaceapi.microsoft.com/api");
         }
 
-        // LOCAL DEV MODE: For local dev, the API emulator doesn't enforce authentication
-        // We pass mock credentials but the emulator ignores them (REQUIRE_AUTH=false)
-        // The Azure SDK will add bearer tokens to requests, but the emulator doesn't validate them
+        // LOCAL DEV MODE: Configure Azure SDK to ignore SSL certificate errors for HTTP API emulator
+        var marketplaceOptions = new MarketplaceSaaSClientOptions();
+        if (config.Environment == "LocalDev")
+        {
+            var handler = new System.Net.Http.HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            marketplaceOptions.Transport = new Azure.Core.Pipeline.HttpClientTransport(handler);
+        }
+
         services
-            .AddSingleton<IFulfillmentApiService>(new FulfillmentApiService(new MarketplaceSaaSClient(fulfillmentBaseApi, creds), config, new FulfillmentApiClientLogger()))
+            .AddSingleton<IFulfillmentApiService>(new FulfillmentApiService(new MarketplaceSaaSClient(fulfillmentBaseApi, creds, marketplaceOptions), config, new FulfillmentApiClientLogger()))
             .AddSingleton<SaaSApiClientConfiguration>(config)
             .AddSingleton<ValidateJwtToken>();
 

@@ -36,12 +36,13 @@ services:
       - WEBHOOK_URL=http://customersite:80/api/AzureWebhook
       - REQUIRE_AUTH=false
       - PUBLISHER_ID=LocalDevPublisher
+      - ENABLE_HTTPS=true
     ports:
       - "8080:80"
     networks:
       - saas-network
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1
+      test: wget --no-verbose --tries=1 --spider --no-check-certificate https://localhost:80/ || exit 1
       interval: 10s
       timeout: 3s
       retries: 5
