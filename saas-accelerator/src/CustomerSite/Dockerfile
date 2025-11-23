@@ -38,4 +38,4 @@ ENV ASPNETCORE_URLS=http://+:80
 ENV ASPNETCORE_ENVIRONMENT=Development
 
 # Run the compiled application
-ENTRYPOINT ["dotnet", "Marketplace.SaaS.Accelerator.CustomerSite.dll"]
+ENTRYPOINT ["dotnet", "CustomerSite.dll"]
