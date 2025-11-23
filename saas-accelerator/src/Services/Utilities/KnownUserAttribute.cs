@@ -66,15 +66,12 @@ public class KnownUserAttribute : AuthorizeAttribute, IAuthorizationFilter
                 // LOCAL DEV MODE: Auto-register the user instead of denying access
                 try
                 {
-                    var userName = context.HttpContext.User?.Claims?
-                        .Where(s => s.Type == ClaimConstants.CLAIM_NAME)
-                        .FirstOrDefault()?.Value ?? "Local Admin User";
-
-                    this.knownUsersRepository.AddKnownUsers(new KnownUsers
+                    // Use the Save method from IBaseRepository<KnownUsers>
+                    // KnownUsers entity only has: Id, UserEmail, RoleId (no CreatedDate)
+                    this.knownUsersRepository.Save(new KnownUsers
                     {
                         UserEmail = email,
-                        RoleId = 1, // Admin role
-                        CreatedDate = DateTime.UtcNow
+                        RoleId = 1 // Admin role
                     });
 
                     // User auto-registered, allow access to continue
