@@ -83,7 +83,7 @@ public class Startup
         // LOCAL DEV MODE: Use mock credentials for API emulator (dummy token, no real auth)
         // The API emulator runs with REQUIRE_AUTH=false and ignores bearer tokens
         // In production, use real credentials for HTTPS endpoints
-        var creds = config.Environment == "LocalDev"
+        Azure.Core.TokenCredential creds = config.Environment == "LocalDev"
             ? new MockTokenCredential()
             : new ClientSecretCredential(config.TenantId.ToString(), config.ClientId.ToString(), config.ClientSecret);
 
@@ -110,7 +110,7 @@ public class Startup
         }
 
         services
-            .AddSingleton<IFulfillmentApiService>(new FulfillmentApiService(new MarketplaceSaaSClient(fulfillmentBaseApi, creds), config, new FulfillmentApiClientLogger()))
+            .AddSingleton<IFulfillmentApiService>(new FulfillmentApiService(new MarketplaceSaaSClient(creds, fulfillmentBaseApi), config, new FulfillmentApiClientLogger()))
             .AddSingleton<SaaSApiClientConfiguration>(config)
             .AddSingleton<ValidateJwtToken>();
 
